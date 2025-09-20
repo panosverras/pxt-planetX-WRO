@@ -9,7 +9,7 @@
  * Custom blocks
  */
 //% weight=100 color=#0fbc11 icon=""
-namespace wro_basics {
+namespace PlanetX_WRO {
     
 
     /**
