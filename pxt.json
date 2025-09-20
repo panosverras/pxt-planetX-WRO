@@ -10,7 +10,8 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "wro-basic.ts"
+        "wro-basic.ts",
+        "wro-movement.ts"
     ],
     "testFiles": [
         "test.ts"
