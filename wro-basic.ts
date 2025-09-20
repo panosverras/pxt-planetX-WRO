@@ -52,7 +52,7 @@ namespace PlanetX_WRO {
     * Get gray value.The range is from 0 to 255.
     */
     //% channel.fieldEditor="gridpicker" channel.fieldOptions.columns=4
-    //% subcategory=Sensor group="IIC Port"
+    //% subcategory=Trackbit group="IIC Port"
     //% block="Trackbit channel %channel gray value"
     export function TrackbitgetGray(channel: TrackbitChannel): number {
         pins.i2cWriteNumber(0x1a, channel, NumberFormat.Int8LE)
