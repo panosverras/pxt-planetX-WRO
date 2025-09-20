@@ -148,8 +148,8 @@ namespace PlanetX_WRO {
     /**
     * Gets the position offset.The range is from -3000 to 3000.
     */
+    //% group="TrackBit functions"
     //% sensor_number.fieldEditor="gridpicker" sensor_number.fieldOptions.columns=2
-    //% subcategory=Trackbit group="IIC Port"
     //% block="Trackbit sensor offset value"
     export function TrackBit_get_offset(): number {
         let offset: number
@@ -165,8 +165,8 @@ namespace PlanetX_WRO {
     /**
     * Get gray value.The range is from 0 to 255.
     */
+    //% group="TrackBit functions"
     //% channel.fieldEditor="gridpicker" channel.fieldOptions.columns=4
-    //% subcategory=Trackbit group="IIC Port"
     //% block="Trackbit channel %channel gray value"
     export function TrackbitgetGray(channel: TrackbitChannel): number {
         pins.i2cWriteNumber(0x1a, channel, NumberFormat.Int8LE)
@@ -174,9 +174,9 @@ namespace PlanetX_WRO {
     }
 
 
+    //% group="TrackBit functions"
     //% state.fieldEditor="gridpicker" state.fieldOptions.columns=2
     //% channel.fieldEditor="gridpicker" channel.fieldOptions.columns=4
-    //% subcategory=Trackbit group="IIC Port"
     //% block="Trackbit channel %channel is %state"
     export function TrackbitChannelState(channel: TrackbitChannel, state: TrackbitType): boolean {
         let TempVal: number = 0
@@ -200,8 +200,8 @@ namespace PlanetX_WRO {
     }
 
 
+    //% group="Color sensor functions"
     //% blockId=apds9960_readcolor block="Color sensor IIC port color HUE(0~360)"
-    //% subcategory=ColorSensor group="IIC Port"
     export function readColor(): number {
         let buf = pins.createBuffer(2)
         let c = 0
@@ -302,8 +302,9 @@ namespace PlanetX_WRO {
         }
         return hue
     }
+
+    //% group="Color sensor functions"
     //% block="Color sensor IIC port detects %color"
-    //% subcategory=ColorSensor group="IIC Port"
     //% color.fieldEditor="gridpicker" color.fieldOptions.columns=3
     export function checkColor(color: ColorList): boolean {
         let hue = readColor()
@@ -367,12 +368,13 @@ namespace PlanetX_WRO {
         }
     }
 
+
+    //% group="Distanse sensor functions"
     //% blockId=sonarbit block="Ultrasonic sensor %Rjpin distance %distance_unit"
     //% Rjpin.fieldEditor="gridpicker"
     //% Rjpin.fieldOptions.columns=2
     //% distance_unit.fieldEditor="gridpicker"
     //% distance_unit.fieldOptions.columns=2
-    //% subcategory=DistanceSensor group="Digital" color=#EA5532
     export function ultrasoundSensor(Rjpin: DigitalRJPin, distance_unit: Distance_Unit_List): number {
         let pinT = DigitalPin.P1
         let pinE = DigitalPin.P2

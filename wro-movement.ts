@@ -1,6 +1,10 @@
+/*
+* Modified "port" of the original Elecfreaks nezha2 extension
+*/
 
-//% color=#ff0011  icon="\uf06d" block="nezhaV2" blockId="nezhaV2"
-namespace nezhaV2 {
+
+//% color=#ff0011  icon="\uf06d" block="nezhaV2_WRO" blockId="nezhaV2_WRO"
+namespace nezhaV2_WRO {
 
     export enum MovementDirection {
         //%block="clockwise"
