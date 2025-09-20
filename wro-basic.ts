@@ -10,7 +10,7 @@
 /**
  * Custom blocks
  */
-//% weight=100 color=#edca1a icon="\uf192"
+//% weight=100 color=#edca1a icon="\uf0e7"
 namespace PlanetX_WRO {
     
 
