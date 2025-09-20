@@ -48,10 +48,21 @@ namespace PlanetX_WRO {
         return offset;
     }
 
+    /**
+    * Get gray value.The range is from 0 to 255.
+    */
+    //% channel.fieldEditor="gridpicker" channel.fieldOptions.columns=4
+    //% subcategory=Sensor group="IIC Port"
+    //% block="Trackbit channel %channel gray value"
+    export function TrackbitgetGray(channel: TrackbitChannel): number {
+        pins.i2cWriteNumber(0x1a, channel, NumberFormat.Int8LE)
+        return pins.i2cReadNumber(0x1a, NumberFormat.UInt8LE, false)
+    }
+
 
     //% state.fieldEditor="gridpicker" state.fieldOptions.columns=2
     //% channel.fieldEditor="gridpicker" channel.fieldOptions.columns=4
-    //% subcategory=Sensor group="IIC Port"
+    //% subcategory=Trackbit group="IIC Port"
     //% block="Trackbit channel %channel is %state"
     export function TrackbitChannelState(channel: TrackbitChannel, state: TrackbitType): boolean {
         let TempVal: number = 0
