@@ -3,6 +3,8 @@
 */
 
 
+
+
 //% color=#ff0011  icon="\uf06d" block="nezhaV2_WRO" blockId="nezhaV2_WRO"
 namespace nezhaV2_WRO {
 
@@ -104,6 +106,18 @@ namespace nezhaV2_WRO {
         }
         basic.pause(delayTime);
 
+    }
+
+
+    export function _trackbit_get_offset(): number {
+        let offset: number
+        pins.i2cWriteNumber(0x1a, 5, NumberFormat.Int8LE)
+        const offsetH = pins.i2cReadNumber(0x1a, NumberFormat.UInt8LE, false)
+        pins.i2cWriteNumber(0x1a, 6, NumberFormat.Int8LE)
+        const offsetL = pins.i2cReadNumber(0x1a, NumberFormat.UInt8LE, false)
+        offset = (offsetH << 8) | offsetL
+        offset = Math.map(offset, 0, 6000, -3000, 3000)
+        return offset;
     }
 
     //% group="Basic functions"
@@ -419,5 +433,38 @@ namespace nezhaV2_WRO {
         pins.i2cWriteBuffer(i2cAddr, buf);
         let version = pins.i2cReadBuffer(i2cAddr, 3);
         return `V ${version[0]}.${version[1]}.${version[2]}`;
+    }
+
+
+    //% group="LineFollow functions"
+    //% weight=350
+    //% block="While %_pidkeepaliverule > trackbit linefollow: Kp %_kp Kd %_kd BaseSpeed %_basespeed MotorLeft %_motorleft MotorRight %_motorright"
+    //% _basespeed.min=0  _basespeed.max=100
+    export function pid_linefollow(_pidkeepaliverule: boolean, _kp: number, _kd: number, _basespeed: number, _motorleft: MotorPostion, _motorright: MotorPostion): void {
+        let _pidError = 0
+        let _pidPreviousError = 0
+        let _pidValue = 0
+        let _leftSpeed = 0
+        let _rightSpeed = 0
+
+        while (_pidkeepaliverule === true) {
+            _pidError = _trackbit_get_offset()
+            _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
+            _pidPreviousError = _pidError
+
+            _rightSpeed = _basespeed + _pidValue
+            _leftSpeed = _basespeed - _pidValue
+
+            _rightSpeed = _rightSpeed < 0 ? 0 : _rightSpeed
+            _leftSpeed  = _leftSpeed  < 0 ? 0 : _leftSpeed
+
+            __start(_motorleft, MovementDirection.CCW, _leftSpeed)
+            __start(_motorright, MovementDirection.CW, _rightSpeed)
+
+            delayMs(1)
+
+
+        }
+
     }
 }
