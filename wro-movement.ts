@@ -438,7 +438,7 @@ namespace nezhaV2_WRO {
 
     //% group="LineFollow functions"
     //% weight=350
-    //% block="While %_pidkeepaliverule > trackbit linefollow: Kp %_kp Kd %_kd BaseSpeed %_basespeed MotorLeft %_motorleft MotorRight %_motorright"
+    //% block="While %_pidkeepaliverule > TrackBit LineFollow: Kp %_kp Kd %_kd BaseSpeed %_basespeed MotorLeft %_motorleft MotorRight %_motorright"
     //% _basespeed.min=0  _basespeed.max=100
     export function pid_linefollow(_pidkeepaliverule: boolean, _kp: number, _kd: number, _basespeed: number, _motorleft: MotorPostion, _motorright: MotorPostion): void {
         let _pidError = 0
