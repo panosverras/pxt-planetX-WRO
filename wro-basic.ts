@@ -8,7 +8,7 @@
 /**
  * Custom blocks
  */
-//% weight=100 color=#3ae0f2 icon=""
+//% weight=100 color=#edca1a icon=""
 namespace PlanetX_WRO {
     
 
