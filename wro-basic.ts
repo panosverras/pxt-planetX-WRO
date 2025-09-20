@@ -9,7 +9,7 @@
 
 
 
-//% weight=110 color=#edca1a icon="\uf06d"
+//% weight=110 color=#21c0d1 icon="\uf06d"
 namespace PlanetX_WRO {
 
     export enum TrackbitType {
