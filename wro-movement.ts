@@ -436,35 +436,28 @@ namespace nezhaV2_WRO {
     }
 
 
+
+
     //% group="LineFollow functions"
     //% weight=350
-    //% block="While %_pidkeepaliverule > TrackBit LineFollow: Kp %_kp Kd %_kd BaseSpeed %_basespeed MotorLeft %_motorleft MotorRight %_motorright"
+    //% block="TrackBit PD LineFollow MotorLeft %_motorleft MotorRight %_motorright BaseSpeed %_basespeed Kp %_kp Kd %_kd LastError %_pidPreviousError"
     //% _basespeed.min=0  _basespeed.max=100
-    export function pid_linefollow(_pidkeepaliverule: boolean, _kp: number, _kd: number, _basespeed: number, _motorleft: MotorPostion, _motorright: MotorPostion): void {
-        let _pidError = 0
-        let _pidPreviousError = 0
-        let _pidValue = 0
-        let _leftSpeed = 0
-        let _rightSpeed = 0
+    export function pd_linefollow(_pidPreviousError: number, _kp: number, _kd: number, _basespeed: number, _motorleft: MotorPostion, _motorright: MotorPostion): number {
+        
+        let _pidError = _trackbit_get_offset()
+        let _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
 
-        while (_pidkeepaliverule === true) {
-            _pidError = _trackbit_get_offset()
-            _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
-            _pidPreviousError = _pidError
+        let _rightSpeed = _basespeed + _pidValue
+        let _leftSpeed = _basespeed - _pidValue
 
-            _rightSpeed = _basespeed + _pidValue
-            _leftSpeed = _basespeed - _pidValue
+        _rightSpeed = _rightSpeed < 0 ? 0 : _rightSpeed
+        _leftSpeed  = _leftSpeed  < 0 ? 0 : _leftSpeed
 
-            _rightSpeed = _rightSpeed < 0 ? 0 : _rightSpeed
-            _leftSpeed  = _leftSpeed  < 0 ? 0 : _leftSpeed
+        __start(_motorleft, MovementDirection.CCW, _leftSpeed)
+        __start(_motorright, MovementDirection.CW, _rightSpeed)
 
-            __start(_motorleft, MovementDirection.CCW, _leftSpeed)
-            __start(_motorright, MovementDirection.CW, _rightSpeed)
-
-            delayMs(1)
-
-
-        }
+        delayMs(1)
+        return _pidError
 
     }
 }
