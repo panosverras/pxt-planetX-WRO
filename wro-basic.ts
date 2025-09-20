@@ -8,7 +8,8 @@
 
 
 
-//% weight=100 color=#edca1a icon="\uf0e7"
+
+//% weight=110 color=#edca1a icon="\uf06d"
 namespace PlanetX_WRO {
 
     export enum TrackbitType {
@@ -436,6 +437,4 @@ namespace PlanetX_WRO {
 }
 
 
-//% color=#ff0011  icon="\uf06d" block="nezhaV2" blockId="nezhaV2"
-namespace nezhaV2 {
-}
+
