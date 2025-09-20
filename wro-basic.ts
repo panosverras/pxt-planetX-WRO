@@ -434,3 +434,8 @@ namespace PlanetX_WRO {
 
 
 }
+
+
+//% color=#ff0011  icon="\uf06d" block="nezhaV2" blockId="nezhaV2"
+namespace nezhaV2 {
+}
