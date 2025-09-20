@@ -440,7 +440,7 @@ namespace nezhaV2_WRO {
 
     //% group="LineFollow functions"
     //% weight=350
-    //% block="TrackBit PD LineFollow MotorLeft %_motorleft MotorRight %_motorright BaseSpeed %_basespeed Kp %_kp Kd %_kd LastError %_pidPreviousError"
+    //% block="TrackBit PD LineFollow\r\n MotorLeft %_motorleft MotorRight %_motorright BaseSpeed %_basespeed Kp %_kp Kd %_kd LastError %_pidPreviousError"
     //% _basespeed.min=0  _basespeed.max=100
     export function pd_linefollow(_pidPreviousError: number, _kp: number, _kd: number, _basespeed: number, _motorleft: MotorPostion, _motorright: MotorPostion): number {
         
