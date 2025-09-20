@@ -16,7 +16,7 @@ namespace PlanetX_WRO {
     * Gets the position offset.The range is from -3000 to 3000.
     */
     //% sensor_number.fieldEditor="gridpicker" sensor_number.fieldOptions.columns=2
-    //% subcategory=Sensor group="IIC Port"
+    //% subcategory=Trackbit group="IIC Port"
     //% block="Trackbit sensor offset value"
     export function TrackBit_get_offset(): number {
         let offset: number
