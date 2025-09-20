@@ -1,14 +1,16 @@
 
 /**
-* Use this file to define custom functions and blocks.
-* Read more at https://makecode.microbit.org/blocks/custom
+* This library is a stripped down and modified "port" 
+* of the official Elecfreaks PlanetX sensor library 
+* that includes function useful to WRO RoboMission
+* category.
 */
 
 
 /**
  * Custom blocks
  */
-//% weight=100 color=#edca1a icon=""
+//% weight=100 color=#edca1a icon="\f192"
 namespace PlanetX_WRO {
     
 
