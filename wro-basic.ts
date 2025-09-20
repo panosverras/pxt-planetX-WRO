@@ -7,9 +7,7 @@
 */
 
 
-/**
- * Custom blocks
- */
+
 //% weight=100 color=#edca1a icon="\uf0e7"
 namespace PlanetX_WRO {
 
@@ -46,6 +44,28 @@ namespace PlanetX_WRO {
         //% block="White"
         white
     }
+
+    export enum DigitalRJPin {
+        //% block="J1"
+        J1,
+        //% block="J2"
+        J2,
+        //% block="J3"
+        J3,
+        //% block="J4"
+        J4
+    }
+
+    export enum Distance_Unit_List {
+        //% block="cm" 
+        Distance_Unit_cm,
+
+        //% block="foot"
+        Distance_Unit_foot,
+    }
+
+    //////////////////////ultrasonic///////////////////////
+    let distance_last = 0
 
     /////////////////////////color/////////////////////////
     const APDS9960_ADDR = 0x39
@@ -118,6 +138,10 @@ namespace PlanetX_WRO {
         let tmp = i2cread_color(APDS9960_ADDR, APDS9960_ENABLE) | 0x2;
         i2cwrite_color(APDS9960_ADDR, APDS9960_ENABLE, tmp);
     }
+
+
+    
+    
     
 
     /**
@@ -339,6 +363,72 @@ namespace PlanetX_WRO {
                     return false
                 }
                 break
+        }
+    }
+
+    //% blockId=sonarbit block="Ultrasonic sensor %Rjpin distance %distance_unit"
+    //% Rjpin.fieldEditor="gridpicker"
+    //% Rjpin.fieldOptions.columns=2
+    //% distance_unit.fieldEditor="gridpicker"
+    //% distance_unit.fieldOptions.columns=2
+    //% subcategory=DistanceSensor group="Digital" color=#EA5532
+    export function ultrasoundSensor(Rjpin: DigitalRJPin, distance_unit: Distance_Unit_List): number {
+        let pinT = DigitalPin.P1
+        let pinE = DigitalPin.P2
+        switch (Rjpin) {
+            case DigitalRJPin.J1:
+                pinT = DigitalPin.P1
+                pinE = DigitalPin.P8
+                break;
+            case DigitalRJPin.J2:
+                pinT = DigitalPin.P2
+                pinE = DigitalPin.P12
+                break;
+            case DigitalRJPin.J3:
+                pinT = DigitalPin.P13
+                pinE = DigitalPin.P14
+                break;
+            case DigitalRJPin.J4:
+                pinT = DigitalPin.P15
+                pinE = DigitalPin.P16
+                break;
+        }
+        pins.setPull(pinT, PinPullMode.PullNone)
+        pins.digitalWritePin(pinT, 0)
+        control.waitMicros(2)
+        pins.digitalWritePin(pinT, 1)
+        control.waitMicros(10)
+        pins.digitalWritePin(pinT, 0)
+
+        // read pulse
+        let d = pins.pulseIn(pinE, PulseValue.High, 25000)
+        let version = control.hardwareVersion()
+        let distance = d * 34 / 2 / 1000
+        if (version == "1") {
+            distance = distance * 3 / 2
+        }
+
+        if (distance > 430) {
+            distance = 0
+        }
+
+        if (distance == 0) {
+            distance = distance_last
+            distance_last = 0
+        }
+        else {
+            distance_last = distance
+        }
+
+        switch (distance_unit) {
+            case Distance_Unit_List.Distance_Unit_cm:
+                return Math.floor(distance)  //cm
+                break
+            case Distance_Unit_List.Distance_Unit_foot:
+                return Math.floor(distance / 30.48)   //foot
+                break
+            default:
+                return 0
         }
     }
 
