@@ -445,7 +445,7 @@ namespace nezhaV2_WRO {
 
     //% group="LineFollow functions"
     //% weight=350
-    //%block="PD calculate (Kp,Kd,Error,PrevError) %_kp %_kd %_pidError %_pidPreviousError"
+    //%block="PD calculate (Kp,Kd,Error,PrevError) %_kp%_kd%_pidError%_pidPreviousError"
     export function pd_calculator(_kp: number, _kd: number, _pidError: number, _pidPreviousError: number): number {
         let _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
         return _pidValue
