@@ -77,6 +77,13 @@ namespace nezhaV2_WRO {
         M4 = 4
     }
 
+    export enum FloorLimit {
+        //%block="min"
+        min = "min",
+        //%block="max"
+        max = "max"
+    }
+
     let i2cAddr: number = 0x10;
     let servoSpeedGlobal = 900
     // 相对角度值(用于相对角度值归零函数)
@@ -460,4 +467,29 @@ namespace nezhaV2_WRO {
         return _pidError
 
     }
+
+
+    //% group="Other functions"
+    //% weight=350
+    //%block="Limit %_inValue to %_floorMode limit %_floor"
+    export function limitToFloor(_inValue: number, _floorMode: FloorLimit, _floor: number): number {
+        let _rValue;
+        if (_floorMode==="min") {
+            if (_inValue < _floor) {
+                _rValue = _floor
+            } else {
+                _rValue = _inValue
+            }
+        } else {
+            if (_inValue > _floor) {
+                _rValue = _floor
+            } else {
+                _rValue = _inValue
+            }
+        }
+        return _rValue
+    }
+
+  
+
 }
