@@ -443,34 +443,18 @@ namespace nezhaV2_WRO {
     }
 
 
-
-
     //% group="LineFollow functions"
     //% weight=350
-    //%block="TrackBit PD LineFollow > MotorLeft %_motorleft, MotorRight %_motorright, BaseSpeed %_basespeed, Kp %_kp, Kd %_kd, LastError %_pidPreviousError"
-    //% _basespeed.min=0  _basespeed.max=100
-    export function pd_linefollow(_motorleft: MotorPostion, _motorright: MotorPostion, _basespeed: number, _kp: number, _kd: number, _pidPreviousError: number): number {
-        
-        let _pidError = _trackbit_get_offset()
+    //%block="PD calculate (Kp,Kd,Error,PrevError) %_kp %_kd %_pidError %_pidPreviousError"
+    export function pd_calculator(_kp: number, _kd: number, _pidError: number, _pidPreviousError: number): number {
         let _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
-
-        let _rightSpeed = _basespeed + _pidValue
-        let _leftSpeed = _basespeed - _pidValue
-
-        _rightSpeed = _rightSpeed < 0 ? 0 : _rightSpeed
-        _leftSpeed  = _leftSpeed  < 0 ? 0 : _leftSpeed
-
-        __start(_motorleft, MovementDirection.CCW, _leftSpeed)
-        __start(_motorright, MovementDirection.CW, _rightSpeed)
-
-        delayMs(1)
-        return _pidError
-
+        return _pidValue
     }
 
 
+
     //% group="Other functions"
-    //% weight=350
+    //% weight=300
     //%block="Limit %_inValue to %_floorMode limit %_floor"
     export function limitToFloor(_inValue: number, _floorMode: FloorLimit, _floor: number): number {
         let _rValue;
