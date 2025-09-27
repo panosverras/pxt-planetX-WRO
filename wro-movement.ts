@@ -437,7 +437,7 @@ namespace nezhaV2_WRO {
 
 
     //% group="LineFollow functions"
-    //% weight=500
+    //% weight=402
     //%block="follow line for %lfDegrees degrees with speed %baseSpeed \\%, kp %kp and kd %kd"
     //% _baseSpeed.min=0 _baseSpeed.max=100
     export function lf_pd_degrees(lfDegrees: number, baseSpeed: number, kp: number, kd: number) {
