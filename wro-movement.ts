@@ -457,6 +457,8 @@ namespace nezhaV2_WRO {
             __start(MotorPostion.M4, MovementDirection.CW, Rspeed)
             previousError = currentError
         }
+        stop(MotorPostion.M1)
+        stop(MotorPostion.M4)
     }
 
    
