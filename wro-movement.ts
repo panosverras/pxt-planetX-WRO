@@ -444,7 +444,7 @@ namespace nezhaV2_WRO {
 
 
     //% group="LineFollow functions"
-    //% weight=350
+    //% weight=500
     //%block="PDcalc (Kp,Kd,E,pE) %_kp %_kd %_pidError %_pidPreviousError"
     export function pd_calculator(_kp: number, _kd: number, _pidError: number, _pidPreviousError: number): number {
         let _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
@@ -452,8 +452,9 @@ namespace nezhaV2_WRO {
     }
 
     //% group="LineFollow functions"
-    //% weight=350
-    //%block="LineFollow for %_lfDegrees degrees with Speed %_baseSpeed Kp %_kp Kd %_kd"
+    //% weight=500
+    //%block="set line follow for %_lfDegrees degrees with Speed %_baseSpeed \\%, Kp %_kp and Kd %_kd"
+    //% _baseSpeed.min=0 _baseSpeed.max=100
     export function lf_pd_degrees(_lfDegrees: number, _baseSpeed: number, _kp: number, _kd: number) {
         let previousError = 0
         let currentError = 0
@@ -477,7 +478,7 @@ namespace nezhaV2_WRO {
 
 
     //% group="Other functions"
-    //% weight=300
+    //% weight=410
     //%block="Limit %_inValue to %_floorMode limit %_floor"
     export function limitToFloor(_inValue: number, _floorMode: FloorLimit, _floor: number): number {
         let _rValue;
@@ -497,6 +498,6 @@ namespace nezhaV2_WRO {
         return _rValue
     }
 
-  
+
 
 }
