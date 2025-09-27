@@ -419,6 +419,7 @@ namespace nezhaV2_WRO {
     //% weight=402
     //%block="set the left wheel speed at %speed_l \\%, right wheel speed at %speed_r \\% and start the motor"
     //% speed_l.min=-100  speed_l.max=100 speed_r.min=-100  speed_r.max=100
+    //% inlineInputMode=inline
     export function comboStart(speed_l: number, speed_r: number): void {
         start(motorLeftGlobal, -speed_l);
         start(motorRightGlobal, speed_r);
@@ -445,14 +446,6 @@ namespace nezhaV2_WRO {
 
     //% group="LineFollow functions"
     //% weight=500
-    //%block="PDcalc (Kp,Kd,E,pE) %_kp %_kd %_pidError %_pidPreviousError"
-    export function pd_calculator(_kp: number, _kd: number, _pidError: number, _pidPreviousError: number): number {
-        let _pidValue = (_kp * _pidError) + (_kd * (_pidError - _pidPreviousError))
-        return _pidValue
-    }
-
-    //% group="LineFollow functions"
-    //% weight=500
     //%block="follow line for %_lfDegrees degrees with speed %_baseSpeed \\%, kp %_kp and kd %_kd"
     //% _baseSpeed.min=0 _baseSpeed.max=100
     export function lf_pd_degrees(_lfDegrees: number, _baseSpeed: number, _kp: number, _kd: number) {
@@ -465,10 +458,11 @@ namespace nezhaV2_WRO {
         while (readRelAngle(MotorPostion.M1) < _lfDegrees) {
             currentError = PlanetX_WRO.TrackBit_get_offset()
             PD = _kp * currentError + _kd * (currentError - previousError)
-            Lspeed = limitToFloor(_baseSpeed + PD, nezhaV2_WRO.FloorLimit.min, 0)
-            Rspeed = limitToFloor(baseSpeed - PD, nezhaV2_WRO.FloorLimit.min, 0)
+            Lspeed = limitToFloor(_baseSpeed + PD, FloorLimit.min, 0)
+            Rspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
             start(nezhaV2_WRO.MotorPostion.M1, Lspeed)
             start(nezhaV2_WRO.MotorPostion.M4, Rspeed)
+            previousError = currentError
         }
     }
 
