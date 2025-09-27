@@ -84,6 +84,30 @@ namespace nezhaV2_WRO {
         max = 2
     }
 
+    export enum TrackbitType {
+        //% block="◌" 
+        State_0 = 0,
+        //% block="●" 
+        State_1 = 1
+    }
+    export enum TrackbitChannel {
+        //% block="1"
+        One = 0,
+        //% block="2"
+        Two = 1,
+        //% block="3"
+        Three = 2,
+        //% block="4"
+        Four = 3
+    }
+
+    export enum CrossroadSide {
+        //% block="left"
+        Left = 0,
+        //% block="right"
+        Right = 1
+    }
+
     let i2cAddr: number = 0x10;
     let servoSpeedGlobal = 900
     // 相对角度值(用于相对角度值归零函数)
@@ -125,6 +149,28 @@ namespace nezhaV2_WRO {
         offset = (offsetH << 8) | offsetL
         offset = Math.map(offset, 0, 6000, -3000, 3000)
         return offset;
+    }
+
+
+    export function TrackbitChannelState(channel: TrackbitChannel, state: TrackbitType): boolean {
+        let TempVal: number = 0
+        pins.i2cWriteNumber(0x1a, 4, NumberFormat.Int8LE)
+        TempVal = pins.i2cReadNumber(0x1a, NumberFormat.UInt8LE, false)
+        if (state == TrackbitType.State_1)
+            if (TempVal & 1 << channel) {
+                return true
+            }
+            else {
+                return false
+            }
+        else {
+            if (TempVal & 1 << channel) {
+                return false
+            }
+            else {
+                return true
+            }
+        }
     }
 
     //% group="Basic functions"
@@ -461,7 +507,35 @@ namespace nezhaV2_WRO {
         stop(MotorPostion.M4)
     }
 
-   
+
+    //% group="LineFollow functions"
+    //% weight=405
+    //%block="follow line with speed %baseSpeed \\%, kp %kp and kd %kd until crossroad on %crossside"
+    //% baseSpeed.min=0 baseSpeed.max=100
+    //% inlineInputMode=inline
+    export function lf_pd_crossroad(baseSpeed: number, kp: number, kd: number, crossside: CrossroadSide) {
+        let previousError = 0
+        let currentError = 0
+        let PD = 0
+        let Lspeed = baseSpeed
+        let Rspeed = baseSpeed
+        let channel = TrackbitChannel.One
+        if (crossside==1) {
+            channel = TrackbitChannel.Four
+        }
+        resetRelAngleValue(MotorPostion.M1)
+        while (TrackbitChannelState(channel, 0)) {
+            currentError = PlanetX_WRO.TrackBit_get_offset()
+            PD = kp * currentError + kd * (currentError - previousError)
+            Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
+            Rspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
+            __start(MotorPostion.M1, MovementDirection.CW, Lspeed)
+            __start(MotorPostion.M4, MovementDirection.CCW, Rspeed)
+            previousError = currentError
+        }
+        stop(MotorPostion.M1)
+        stop(MotorPostion.M4)
+    }
     
 
 
