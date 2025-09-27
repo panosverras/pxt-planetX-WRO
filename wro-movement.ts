@@ -453,7 +453,7 @@ namespace nezhaV2_WRO {
 
     //% group="LineFollow functions"
     //% weight=500
-    //%block="set line follow for %_lfDegrees degrees with Speed %_baseSpeed \\%, Kp %_kp and Kd %_kd"
+    //%block="follow line for %_lfDegrees degrees with speed %_baseSpeed \\%, kp %_kp and kd %_kd"
     //% _baseSpeed.min=0 _baseSpeed.max=100
     export function lf_pd_degrees(_lfDegrees: number, _baseSpeed: number, _kp: number, _kd: number) {
         let previousError = 0
