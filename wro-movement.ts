@@ -453,10 +453,26 @@ namespace nezhaV2_WRO {
 
     //% group="LineFollow functions"
     //% weight=350
-    //%block="LineFollow for %_lfDegrees degrees"
-    export function lf_pd_degrees(_lfDegrees: number) {
-
+    //%block="LineFollow for %_lfDegrees degrees with Speed %_baseSpeed Kp %_kp Kd %_kd"
+    export function lf_pd_degrees(_lfDegrees: number, _baseSpeed: number, _kp: number, _kd: number) {
+        let previousError = 0
+        let currentError = 0
+        let PD = 0
+        let Lspeed = _baseSpeed
+        let Rspeed = baseSpeed
+        resetRelAngleValue(MotorPostion.M1)
+        while (readRelAngle(MotorPostion.M1) < _lfDegrees) {
+            currentError = PlanetX_WRO.TrackBit_get_offset()
+            PD = _kp * currentError + _kd * (currentError - previousError)
+            Lspeed = limitToFloor(_baseSpeed + PD, nezhaV2_WRO.FloorLimit.min, 0)
+            Rspeed = limitToFloor(baseSpeed - PD, nezhaV2_WRO.FloorLimit.min, 0)
+            start(nezhaV2_WRO.MotorPostion.M1, Lspeed)
+            start(nezhaV2_WRO.MotorPostion.M4, Rspeed)
+        }
     }
+
+   
+    
 
 
 
