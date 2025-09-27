@@ -425,22 +425,14 @@ namespace nezhaV2_WRO {
         start(motorRightGlobal, speed_r);
     }
 
-    //% group="export functions"
-    //% weight=320
-    //%block="version number"
-    export function readVersion(): string {
-        let buf = pins.createBuffer(8);
-        buf[0] = 0xFF;
-        buf[1] = 0xF9;
-        buf[2] = 0x00;
-        buf[3] = 0x00;
-        buf[4] = 0x88;
-        buf[5] = 0x00;
-        buf[6] = 0x00;
-        buf[7] = 0x00;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        let version = pins.i2cReadBuffer(i2cAddr, 3);
-        return `V ${version[0]}.${version[1]}.${version[2]}`;
+    //% group="LineFollow functions"
+    //% weight=402
+    //%block="set the left wheel speed at %speed_l \\%, right wheel speed at %speed_r \\% and start the motor"
+    //% speed_l.min=-100  speed_l.max=100 speed_r.min=-100  speed_r.max=100
+    //% inlineInputMode=inline
+    export function XcomboStart(speed_l: number, speed_r: number): void {
+        start(motorLeftGlobal, -speed_l);
+        start(motorRightGlobal, speed_r);
     }
 
 
