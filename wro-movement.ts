@@ -79,9 +79,9 @@ namespace nezhaV2_WRO {
 
     export enum FloorLimit {
         //%block="min"
-        min = "min",
+        min = 1,
         //%block="max"
-        max = "max"
+        max = 2
     }
 
     let i2cAddr: number = 0x10;
@@ -465,7 +465,7 @@ namespace nezhaV2_WRO {
     //%block="Limit %_inValue to %_floorMode limit %_floor"
     export function limitToFloor(_inValue: number, _floorMode: FloorLimit, _floor: number): number {
         let _rValue;
-        if (_floorMode==="min") {
+        if (_floorMode===1) {
             if (_inValue < _floor) {
                 _rValue = _floor
             } else {
