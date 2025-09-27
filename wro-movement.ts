@@ -453,8 +453,8 @@ namespace nezhaV2_WRO {
             PD = kp * currentError + kd * (currentError - previousError)
             Lspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
             Rspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
-            start(nezhaV2_WRO.MotorPostion.M1, Lspeed)
-            start(nezhaV2_WRO.MotorPostion.M4, Rspeed)
+            __start(MotorPostion.M1, MovementDirection.CW, Lspeed)
+            __start(MotorPostion.M4, MovementDirection.CW, Rspeed)
             previousError = currentError
         }
     }
