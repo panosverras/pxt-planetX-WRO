@@ -451,8 +451,8 @@ namespace nezhaV2_WRO {
         while (readRelAngle(MotorPostion.M1) < lfDegrees) {
             currentError = PlanetX_WRO.TrackBit_get_offset()
             PD = kp * currentError + kd * (currentError - previousError)
-            Lspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
-            Rspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
+            Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
+            Rspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
             __start(MotorPostion.M1, MovementDirection.CW, Lspeed)
             __start(MotorPostion.M4, MovementDirection.CCW, Rspeed)
             previousError = currentError
