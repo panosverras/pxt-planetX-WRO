@@ -536,6 +536,32 @@ namespace nezhaV2_WRO {
         stop(MotorPostion.M1)
         stop(MotorPostion.M4)
     }
+
+
+    //% group="LineFollow functions"
+    //% weight=405
+    //%block="follow line with speed %baseSpeed \\%, kp %kp and kd %kd until color sensor detects %color"
+    //% baseSpeed.min=0 baseSpeed.max=100
+    //% inlineInputMode=inline
+    export function lf_pd_color(baseSpeed: number, kp: number, kd: number, color: PlanetX_WRO.ColorList) {
+        let previousError = 0
+        let currentError = 0
+        let PD = 0
+        let Lspeed = baseSpeed
+        let Rspeed = baseSpeed
+        resetRelAngleValue(MotorPostion.M1)
+        while (PlanetX_WRO.checkColor(color)) {
+            currentError = PlanetX_WRO.TrackBit_get_offset()
+            PD = kp * currentError + kd * (currentError - previousError)
+            Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
+            Rspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
+            __start(MotorPostion.M1, MovementDirection.CW, Lspeed)
+            __start(MotorPostion.M4, MovementDirection.CCW, Rspeed)
+            previousError = currentError
+        }
+        stop(MotorPostion.M1)
+        stop(MotorPostion.M4)
+    }
     
 
 
