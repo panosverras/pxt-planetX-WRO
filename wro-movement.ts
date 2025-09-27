@@ -550,7 +550,7 @@ namespace nezhaV2_WRO {
         let Lspeed = baseSpeed
         let Rspeed = baseSpeed
         resetRelAngleValue(MotorPostion.M1)
-        while (PlanetX_WRO.checkColor(color)) {
+        while (PlanetX_WRO.checkColor(color)==false) {
             currentError = PlanetX_WRO.TrackBit_get_offset()
             PD = kp * currentError + kd * (currentError - previousError)
             Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
