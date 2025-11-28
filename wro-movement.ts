@@ -495,7 +495,7 @@ namespace nezhaV2_WRO {
         let Rspeed = baseSpeed
         resetRelAngleValue(MotorPostion.M1)
         while (readRelAngle(MotorPostion.M1) < lfDegrees) {
-            currentError = PlanetX_WRO.TrackBit_get_offset()
+            currentError = PlanetX_WRO.TrackbitCentralOffset()
             PD = kp * currentError + kd * (currentError - previousError)
             Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
             Rspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
@@ -525,7 +525,7 @@ namespace nezhaV2_WRO {
         }
         resetRelAngleValue(MotorPostion.M1)
         while (TrackbitChannelState(channel, 0)) {
-            currentError = PlanetX_WRO.TrackBit_get_offset()
+            currentError = PlanetX_WRO.TrackbitCentralOffset()
             PD = kp * currentError + kd * (currentError - previousError)
             Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
             Rspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
@@ -551,7 +551,7 @@ namespace nezhaV2_WRO {
         let Rspeed = baseSpeed
         resetRelAngleValue(MotorPostion.M1)
         while (PlanetX_WRO.checkColor(color)==false) {
-            currentError = PlanetX_WRO.TrackBit_get_offset()
+            currentError = PlanetX_WRO.TrackbitCentralOffset()
             PD = kp * currentError + kd * (currentError - previousError)
             Lspeed = limitToFloor(baseSpeed - PD, FloorLimit.min, 0)
             Rspeed = limitToFloor(baseSpeed + PD, FloorLimit.min, 0)
