@@ -173,6 +173,16 @@ namespace PlanetX_WRO {
         return pins.i2cReadNumber(0x1a, NumberFormat.UInt8LE, false)
     }
 
+    /**
+     * Get gray offset of two central channels (2 & 3) - 0-255
+     */
+    //% group="Trackbit functions"
+    //% block="Trackbit central gray offset (channels 2 & 3)"
+    export function TrackbitCentralOffset():number {
+        let offset = TrackbitgetGray(1) - TrackbitgetGray(2)
+        return offset
+    }
+
 
     //% group="TrackBit functions"
     //% state.fieldEditor="gridpicker" state.fieldOptions.columns=2
